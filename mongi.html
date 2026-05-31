@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Mongi - Curiosa por aprender, feliz por descubrir</title>
+    <link rel="icon" type="image/x-icon" href="img/1.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --azul: #2563EB;
+            --amarillo: #FACC15;
+            --rosa: #FB7185;
+            --verde: #22C55E;
+            --morado: #A78BFA;
+            --gris: #F3F4F6;
+            --marron: #5D4037;
+            --marron-claro: #8D6E63;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--gris);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Animaciones */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Navegación */
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #eee;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--azul), var(--amarillo), var(--rosa), var(--verde), var(--morado));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--azul);
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .nav-links a i {
+            margin-right: 8px;
+        }
+
+        /* Estilos para los botones de contacto en el navbar */
+        .contact-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-left: 1rem;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: #f0f2f5;
+            color: #333;
+        }
+
+        .contact-btn i {
+            font-size: 1.1rem;
+        }
+
+        .contact-btn.whatsapp:hover {
+            background: #25D366;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .contact-btn.email:hover {
+            background: #EA4335;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Secciones */
+        .section {
+            display: none;
+            padding: 100px 2rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            border-radius: 30px;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-mascot {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 20px 40px rgba(93, 64, 55, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-mascot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-mascot i {
+            font-size: 80px;
+            color: white;
+        }
+
+        .hero-mascot::after {
+            content: "";
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 40px;
+            animation: spin-slow 4s linear infinite;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--marron);
+        }
+
+        .hero .slogan {
+            font-size: 1.5rem;
+            color: var(--rosa);
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        /* Contador de visitas */
+        .visitor-counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            margin-top: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            font-weight: 700;
+        }
+
+        .visitor-counter i {
+            font-size: 1.5rem;
+            color: var(--azul);
+        }
+
+        .visitor-counter span {
+            font-size: 1.3rem;
+            color: #333;
+        }
+
+        .hero-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--azul);
+        }
+
+        .feature-card h3 {
+            color: var(--azul);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        /* Botones */
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--azul), #1d4ed8);
+            color: white;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--verde), #16a34a);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--amarillo), #eab308);
+            color: #333;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--rosa), #e11d48);
+            color: white;
+        }
+
+        .btn-lesson {
+            width: 100%;
+            margin-top: 1rem;
+            justify-content: center;
+            font-size: 1rem;
+            padding: 0.8rem 1.5rem;
+        }
+
+        /* Lecciones */
+        .level-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .level-tab {
+            padding: 1rem 2.5rem;
+            border: 3px solid transparent;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+            color: #666;
+        }
+
+        .level-tab.active[data-level="basico"] {
+            border-color: var(--verde);
+            color: var(--verde);
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .level-tab.active[data-level="intermedio"] {
+            border-color: var(--amarillo);
+            color: #b45309;
+            background: rgba(250, 204, 21, 0.1);
+        }
+
+        .level-tab.active[data-level="avanzado"] {
+            border-color: var(--rosa);
+            color: var(--rosa);
+            background: rgba(251, 113, 133, 0.1);
+        }
+
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .lesson-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+
+        .lesson-header {
+            padding: 1.5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lesson-header.basico { background: linear-gradient(135deg, var(--verde), #16a34a); }
+        .lesson-header.intermedio { background: linear-gradient(135deg, var(--amarillo), #eab308); color: #333; }
+        .lesson-header.avanzado { background: linear-gradient(135deg, var(--rosa), #e11d48); }
+
+        .lesson-number {
+            font-size: 3rem;
+            font-weight: 900;
+            opacity: 0.2;
+            position: absolute;
+            right: 20px;
+            top: 10px;
+        }
+
+        .lesson-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .lesson-body h3 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .lesson-body p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .tag-vocab { background: rgba(37, 99, 235, 0.1); color: var(--azul); }
+        .tag-grammar { background: rgba(167, 139, 250, 0.1); color: var(--morado); }
+        .tag-speaking { background: rgba(251, 113, 133, 0.1); color: var(--rosa); }
+
+        /* Diccionario */
+        .dict-controls {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem 1.5rem;
+            border: 3px solid #e5e7eb;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: var(--azul);
+        }
+
+        .filter-select-wrapper {
+            position: relative;
+            min-width: 200px;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1.5rem;
+            border: 3px solid #e5e7eb;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            background: white;
+            color: #555;
+            transition: border-color 0.3s;
+        }
+
+        .filter-select:focus {
+            border-color: var(--azul);
+        }
+
+        .filter-select-wrapper::after {
+            content: "\f107";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            right: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            pointer-events: none;
+        }
+
+        .dictionary-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .word-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .word-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .word-info h4 {
+            font-size: 1.3rem;
+            color: var(--azul);
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .word-info .translation {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .word-phonetic {
+            color: var(--morado);
+            font-size: 0.95rem;
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        .word-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .difficulty-badge {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .badge-basico { background: rgba(34, 197, 94, 0.15); color: #15803d; }
+        .badge-intermedio { background: rgba(250, 204, 21, 0.15); color: #a16207; }
+        .badge-avanzado { background: rgba(251, 113, 133, 0.15); color: #be123c; }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+            font-size: 1.2rem;
+        }
+
+        /* Juegos */
+        .game-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .score-item {
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .score-item .number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--azul);
+        }
+
+        .score-item .label {
+            color: #666;
+            font-weight: 700;
+        }
+
+        .quiz-card {
+            background: white;
+            border-radius: 30px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-image {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, var(--gris), #e5e7eb);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: var(--azul);
+            position: relative;
+        }
+
+        .quiz-question {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .option-btn {
+            padding: 1.2rem;
+            border: 3px solid #e5e7eb;
+            background: white;
+            border-radius: 15px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #333;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--azul);
+            background: rgba(37, 99, 235, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .option-btn.correct {
+            border-color: var(--verde);
+            background: rgba(34, 197, 94, 0.1);
+            color: #15803d;
+            animation: bounce 0.5s;
+        }
+
+        .option-btn.wrong {
+            border-color: var(--rosa);
+            background: rgba(251, 113, 133, 0.1);
+            color: #be123c;
+            animation: shake 0.5s;
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .feedback {
+            margin-top: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 800;
+            min-height: 40px;
+        }
+
+        .feedback.correct { color: var(--verde); }
+        .feedback.wrong { color: var(--rosa); }
+
+        .next-btn {
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .next-btn.show {
+            display: inline-flex;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: 100%;
+            animation: confetti 3s ease-out forwards;
+            z-index: 9999;
+        }
+
+        /* Footer */
+        footer {
+            background: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--azul), var(--amarillo), var(--rosa), var(--verde), var(--morado));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .footer-mascot {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-mascot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .footer-mascot i {
+            font-size: 30px;
+            color: white;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            padding: 3rem;
+            border-radius: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .modal h2 {
+            color: var(--azul);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--amarillo);
+        }
+
+        /* ============================================ */
+        /* MEDIA QUERIES - SOLO PARA HACERLO RESPONSIVE */
+        /* ============================================ */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 0.8rem 1rem;
+            }
+            
+            .logo {
+                justify-content: center;
+            }
+            
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .nav-links {
+                justify-content: center;
+                gap: 0.5rem;
+            }
+            
+            .nav-links a {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            .contact-buttons {
+                margin-left: 0;
+                justify-content: center;
+            }
+            
+            .section {
+                padding: 110px 1rem 1.5rem;
+            }
+            
+            .hero {
+                padding: 2rem 1rem;
+            }
+            
+            .hero-mascot {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero .slogan {
+                font-size: 1.2rem;
+            }
+            
+            .hero-features {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .level-tab {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+            
+            .lessons-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .search-input, .filter-select-wrapper {
+                width: 100%;
+            }
+            
+            .quiz-card {
+                padding: 1.5rem;
+            }
+            
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .quiz-image {
+                width: 150px;
+                height: 150px;
+                font-size: 50px;
+            }
+            
+            .quiz-question {
+                font-size: 1.2rem;
+            }
+            
+            .word-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .word-meta {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .score-board {
+                gap: 1rem;
+            }
+            
+            .score-item {
+                padding: 0.8rem 1.2rem;
+            }
+            
+            .modal {
+                padding: 2rem;
+            }
+            
+            .btn {
+                padding: 0.8rem 1.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links a span {
+                display: none;
+            }
+            
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 0.4rem;
+            }
+            
+            .contact-btn span {
+                display: none;
+            }
+            
+            .contact-btn {
+                padding: 0.5rem;
+                font-size: 1.1rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+            
+            .hero .slogan {
+                font-size: 1rem;
+            }
+            
+            .lesson-header {
+                padding: 1rem;
+            }
+            
+            .lesson-icon {
+                font-size: 2rem;
+            }
+            
+            .lesson-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegación -->
+    <nav class="navbar">
+        <a href="#" class="logo" onclick="showSection('home'); return false;">
+            <div class="logo-icon">
+                <img src="img/1.png" alt="" srcset="">
+            </div>
+            <span class="logo-text">mongi</span>
+        </a>
+        <div style="display: flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: 0.5rem;">
+            <ul class="nav-links">
+                <li><a href="#" onclick="showSection('home'); return false;" class="active" data-section="home"><i class="fas fa-home"></i><span>Inicio</span></a></li>
+                <li><a href="#" onclick="showSection('lessons'); return false;" data-section="lessons"><i class="fas fa-book"></i><span>Lecciones</span></a></li>
+                <li><a href="#" onclick="showSection('dictionary'); return false;" data-section="dictionary"><i class="fas fa-language"></i><span>Diccionario</span></a></li>
+                <li><a href="#" onclick="showSection('games'); return false;" data-section="games"><i class="fas fa-gamepad"></i><span>Juegos</span></a></li>
+            </ul>
+            <div class="contact-buttons">
+                <a href="https://wa.me/521234567890" target="_blank" class="contact-btn whatsapp" title="WhatsApp">
+                    <i class="fab fa-whatsapp"></i><span>WhatsApp</span>
+                </a>
+                <a href="mailto:mongi@example.com" target="_blank" class="contact-btn email" title="Correo">
+                    <i class="fas fa-envelope"></i><span>Gmail</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sección Inicio -->
+    <section id="home" class="section active">
+        <div class="hero">
+            <div class="hero-mascot">
+                <img src="img/2.png" alt="" srcset="">
+            </div>
+            <h1>¡Bienvenido a Mongi!</h1>
+            <p class="slogan">Curiosa por aprender, feliz por descubrir</p>
+            <p style="font-size: 1.2rem; color: #666; max-width: 600px; margin: 0 auto;">
+                Aprende inglés de forma divertida y efectiva. Con Mongi como tu compañera, 
+                cada lección es una nueva aventura.
+            </p>
+            
+            <!-- Contador de visualizaciones -->
+            <div class="visitor-counter">
+                <i class="fas fa-eye"></i>
+                <span id="visitCount">0</span> <span>visualizaciones</span>
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <button class="btn btn-primary" onclick="showSection('lessons')">
+                    <i class="fas fa-rocket"></i> Comenzar a Aprender
+                </button>
+            </div>
+
+            <div class="hero-features">
+                <div class="feature-card" onclick="showSection('lessons')">
+                    <div class="feature-icon"><i class="fas fa-book-open"></i></div>
+                    <h3>Lecciones Estructuradas</h3>
+                    <p>3 niveles de aprendizaje desde lo más básico hasta lo avanzado</p>
+                </div>
+                <div class="feature-card" onclick="showSection('dictionary')">
+                    <div class="feature-icon"><i class="fas fa-book"></i></div>
+                    <h3>Diccionario Interactivo</h3>
+                    <p>Más de 30 palabras con transcripción fonética y filtros por dificultad</p>
+                </div>
+                <div class="feature-card" onclick="showSection('games')">
+                    <div class="feature-icon"><i class="fas fa-gamepad"></i></div>
+                    <h3>Aprende Jugando</h3>
+                    <p>Adivina palabras con imágenes y mejora tu vocabulario</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; padding: 2rem;">
+            <h2 style="color: var(--marron); margin-bottom: 1rem;">¿Por qué aprender con Mongi?</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                    <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--azul);"><i class="fas fa-bullseye"></i></div>
+                    <h4 style="color: var(--azul);">Enfoque Práctico</h4>
+                    <p style="color: #666;">Aprende vocabulario que realmente usarás</p>
+                </div>
+                <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                    <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--amarillo);"><i class="fas fa-clock"></i></div>
+                    <h4 style="color: var(--amarillo);">Aprende a tu Ritmo</h4>
+                    <p style="color: #666;">Lecciones cortas y efectivas</p>
+                </div>
+                <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                    <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--rosa);"><i class="fas fa-trophy"></i></div>
+                    <h4 style="color: var(--rosa);">Gamificación</h4>
+                    <p style="color: #666;">Puntos y recompensas por aprender</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Lecciones -->
+    <section id="lessons" class="section">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h1 style="color: var(--marron); font-size: 2.5rem;"><i class="fas fa-book-open"></i> Lecciones de Inglés</h1>
+            <p style="color: #666; font-size: 1.2rem;">Elige tu nivel y comienza tu viaje de aprendizaje</p>
+        </div>
+
+        <div class="level-tabs">
+            <button class="level-tab active" data-level="basico" onclick="filterLessons('basico')">
+                <i class="fas fa-seedling"></i> Básico
+            </button>
+            <button class="level-tab" data-level="intermedio" onclick="filterLessons('intermedio')">
+                <i class="fas fa-tree"></i> Intermedio
+            </button>
+            <button class="level-tab" data-level="avanzado" onclick="filterLessons('avanzado')">
+                <i class="fas fa-mountain"></i> Avanzado
+            </button>
+        </div>
+
+        <div id="lessons-container" class="lessons-grid">
+            <!-- Se llena con JavaScript -->
+        </div>
+    </section>
+
+    <!-- Sección Diccionario -->
+    <section id="dictionary" class="section">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h1 style="color: var(--marron); font-size: 2.5rem;"><i class="fas fa-book"></i> Diccionario</h1>
+            <p style="color: #666; font-size: 1.2rem;">Busca palabras en español e inglés con su pronunciación fonética</p>
+        </div>
+
+        <div class="dict-controls">
+            <div class="search-box">
+                <input type="text" class="search-input" id="dict-search" placeholder="Buscar palabra en español o inglés..." oninput="renderDictionary()">
+                <div class="filter-select-wrapper">
+                    <select class="filter-select" id="dict-filter" onchange="renderDictionary()">
+                        <option value="all">Todas las palabras</option>
+                        <option value="basico">Palabras Básicas</option>
+                        <option value="intermedio">Palabras Intermedias</option>
+                        <option value="avanzado">Palabras Avanzadas</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="dictionary-list" class="dictionary-list">
+            <!-- Se llena con JavaScript -->
+        </div>
+    </section>
+
+    <!-- Sección Juegos -->
+    <section id="games" class="section">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h1 style="color: var(--marron); font-size: 2.5rem;"><i class="fas fa-gamepad"></i> Juegos</h1>
+            <p style="color: #666; font-size: 1.2rem;">¡Adivina la palabra y diviértete aprendiendo!</p>
+        </div>
+
+        <div class="game-container">
+            <div class="score-board">
+                <div class="score-item">
+                    <div class="number" id="score">0</div>
+                    <div class="label">Puntos</div>
+                </div>
+                <div class="score-item">
+                    <div class="number" id="streak">0</div>
+                    <div class="label">Racha</div>
+                </div>
+                <div class="score-item">
+                    <div class="number" id="total-answered">0</div>
+                    <div class="label">Respondidas</div>
+                </div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-image" id="quiz-image"><i class="fas fa-apple-alt"></i></div>
+                <div class="quiz-question" id="quiz-question">¿Cómo se dice "Manzana" en inglés?</div>
+                <div class="quiz-options" id="quiz-options">
+                    <!-- Se llena con JavaScript -->
+                </div>
+                <div class="feedback" id="feedback"></div>
+                <button class="btn btn-primary next-btn" id="next-btn" onclick="nextQuestion()">
+                    Siguiente <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-warning" onclick="resetGame()">
+                    <i class="fas fa-redo"></i> Reiniciar Juego
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <div class="modal-icon"><i class="fas fa-star"></i></div>
+            <h2 id="modal-title">¡Felicitaciones!</h2>
+            <p id="modal-message">Has completado la lección</p>
+            <button class="btn btn-primary" onclick="closeModal()" style="margin-top: 1rem;">Continuar</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-mascot">
+            <img src="img/1.png" alt="" srcset="">
+        </div>
+        <div class="footer-logo">mongi</div>
+        <p style="color: #999;">Curiosa por aprender, feliz por descubrir <i class="fas fa-heart" style="color: var(--rosa);"></i></p>
+        <p style="color: #ccc; margin-top: 0.5rem; font-size: 0.9rem;">© 2026 Mongi English Learning. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // ============================================================
+        // CONTADOR DE VISUALIZACIONES (LOCALSTORAGE)
+        // ============================================================
+        function updateVisitCounter() {
+            let count = localStorage.getItem('mongi_visits');
+            if (count === null) {
+                count = 1;
+            } else {
+                count = parseInt(count) + 1;
+            }
+            localStorage.setItem('mongi_visits', count);
+            document.getElementById('visitCount').textContent = count;
+        }
+
+        // ============================================================
+        // DATOS DE LECCIONES - COMPLETOS
+        // ============================================================
+        const lessonsData = {
+            basico: [
+                { id: 1, title: "Verbo To Be", desc: "Aprende a saludar y presentarte en inglés", tags: ["vocab", "speaking"], icon: "fa-handshake", videoUrl: "https://youtu.be/PRXDYbxfXJU?si=vZ49asyEyilfq1jv" },
+                { id: 2, title: "Números del 1-20", desc: "Los números básicos para el día a día", tags: ["vocab"], icon: "fa-sort-numeric-up", videoUrl: "#" },
+                { id: 3, title: "Colores Básicos", desc: "Identifica los colores principales", tags: ["vocab"], icon: "fa-palette", videoUrl: "#" },
+                { id: 4, title: "Familia", desc: "Vocabulario sobre miembros de la familia", tags: ["vocab"], icon: "fa-users", videoUrl: "#" },
+                { id: 5, title: "Días de la Semana", desc: "Los 7 días y su pronunciación", tags: ["vocab"], icon: "fa-calendar-week", videoUrl: "#" },
+                { id: 6, title: "El verbo más importante en inglés", desc: "Saludos y Presentaciones", tags: ["grammar"], icon: "fa-check-circle", videoUrl: "#" }
+            ],
+            intermedio: [
+                { id: 7, title: "Comida y Restaurantes", desc: "Acciones completadas en el pasado", tags: ["grammar"], icon: "fa-utensils", videoUrl: "https://youtu.be/_kTY7W0NARY?si=l5-PJSDrMGDm2jAX" },
+                { id: 8, title: "Vocabulario de Viajes", desc: "Palabras esenciales para viajar", tags: ["vocab"], icon: "fa-plane", videoUrl: "#" },
+                { id: 9, title: "Presente Continuo", desc: "Acciones que están ocurriendo ahora", tags: ["grammar"], icon: "fa-running", videoUrl: "#" },
+                { id: 10, title: "Adjetivos Calificativos", desc: "Describe personas, lugares y cosas", tags: ["vocab", "grammar"], icon: "fa-star", videoUrl: "#" },
+                { id: 11, title: "Pasado Simple", desc: "Vocabulario gastronómico", tags: ["vocab", "speaking"], icon: "fa-history", videoUrl: "#" },
+                { id: 12, title: "Futuro con Will", desc: "Planes y predicciones", tags: ["grammar"], icon: "fa-magic", videoUrl: "#" }
+            ],
+            avanzado: [
+                { id: 13, title: "Phrasal Verbs", desc: "Verbos compuestos más comunes", tags: ["grammar"], icon: "fa-sync-alt", videoUrl: "#" },
+                { id: 14, title: "Condicionales", desc: "If clauses y situaciones hipotéticas", tags: ["grammar"], icon: "fa-code-branch", videoUrl: "#" },
+                { id: 15, title: "Voz Pasiva", desc: "Estructuras en pasiva", tags: ["grammar"], icon: "fa-bullhorn", videoUrl: "#" },
+                { id: 16, title: "Expresiones Idiomáticas", desc: "Idioms nativos más usados", tags: ["vocab"], icon: "fa-comments", videoUrl: "#" },
+                { id: 17, title: "Debate y Opinión", desc: "Cómo expresar argumentos", tags: ["speaking"], icon: "fa-balance-scale", videoUrl: "#" },
+                { id: 18, title: "Inglés de Negocios", desc: "Vocabulario profesional", tags: ["vocab", "speaking"], icon: "fa-briefcase", videoUrl: "#" }
+            ]
+        };
+
+        // ============================================================
+        // DATOS DEL DICCIONARIO - COMPLETOS (36 palabras)
+        // ============================================================
+        const dictionaryData = [
+            { es: "Hola", en: "Hello", phonetic: "/həˈloʊ/", level: "basico" },
+            { es: "Adiós", en: "Goodbye", phonetic: "/ˌɡʊdˈbaɪ/", level: "basico" },
+            { es: "Gracias", en: "Thank you", phonetic: "/ˈθæŋk ju/", level: "basico" },
+            { es: "Por favor", en: "Please", phonetic: "/pliːz/", level: "basico" },
+            { es: "Sí", en: "Yes", phonetic: "/jes/", level: "basico" },
+            { es: "No", en: "No", phonetic: "/noʊ/", level: "basico" },
+            { es: "Agua", en: "Water", phonetic: "/ˈwɔːtər/", level: "basico" },
+            { es: "Pan", en: "Bread", phonetic: "/bred/", level: "basico" },
+            { es: "Casa", en: "House", phonetic: "/haʊs/", level: "basico" },
+            { es: "Perro", en: "Dog", phonetic: "/dɔːɡ/", level: "basico" },
+            { es: "Gato", en: "Cat", phonetic: "/kæt/", level: "basico" },
+            { es: "Libro", en: "Book", phonetic: "/bʊk/", level: "basico" },
+            { es: "Escuela", en: "School", phonetic: "/skuːl/", level: "basico" },
+            { es: "Amigo", en: "Friend", phonetic: "/frend/", level: "basico" },
+            { es: "Familia", en: "Family", phonetic: "/ˈfæməli/", level: "basico" },
+            { es: "Comida", en: "Food", phonetic: "/fuːd/", level: "intermedio" },
+            { es: "Viaje", en: "Trip", phonetic: "/trɪp/", level: "intermedio" },
+            { es: "Trabajo", en: "Work", phonetic: "/wɜːrk/", level: "intermedio" },
+            { es: "Dinero", en: "Money", phonetic: "/ˈmʌni/", level: "intermedio" },
+            { es: "Tiempo", en: "Time", phonetic: "/taɪm/", level: "intermedio" },
+            { es: "Problema", en: "Problem", phonetic: "/ˈprɑːbləm/", level: "intermedio" },
+            { es: "Solución", en: "Solution", phonetic: "/səˈluːʃn/", level: "intermedio" },
+            { es: "Importante", en: "Important", phonetic: "/ɪmˈpɔːrtnt/", level: "intermedio" },
+            { es: "Diferente", en: "Different", phonetic: "/ˈdɪfrənt/", level: "intermedio" },
+            { es: "Experiencia", en: "Experience", phonetic: "/ɪkˈspɪriəns/", level: "intermedio" },
+            { es: "Desarrollar", en: "Develop", phonetic: "/dɪˈveləp/", level: "intermedio" },
+            { es: "Responsabilidad", en: "Responsibility", phonetic: "/rɪˌspɑːnsəˈbɪləti/", level: "avanzado" },
+            { es: "Significativo", en: "Significant", phonetic: "/sɪɡˈnɪfɪkənt/", level: "avanzado" },
+            { es: "Perspectiva", en: "Perspective", phonetic: "/pərˈspektɪv/", level: "avanzado" },
+            { es: "Sofisticado", en: "Sophisticated", phonetic: "/səˈfɪstɪkeɪtɪd/", level: "avanzado" },
+            { es: "Sustancial", en: "Substantial", phonetic: "/səbˈstænʃl/", level: "avanzado" },
+            { es: "Controversial", en: "Controversial", phonetic: "/ˌkɑːntrəˈvɜːrʃl/", level: "avanzado" },
+            { es: "Inevitable", en: "Inevitable", phonetic: "/ɪnˈevɪtəbl/", level: "avanzado" },
+            { es: "Comprensivo", en: "Comprehensive", phonetic: "/ˌkɑːmprɪˈhensɪv/", level: "avanzado" },
+            { es: "Extraordinario", en: "Extraordinary", phonetic: "/ɪkˈstrɔːrdəneri/", level: "avanzado" },
+            { es: "Simultáneamente", en: "Simultaneously", phonetic: "/ˌsaɪmlˈteɪniəsli/", level: "avanzado" }
+        ];
+
+        // ============================================================
+        // DATOS DEL JUEGO - COMPLETOS (12 preguntas)
+        // ============================================================
+        const gameData = [
+            { question: "¿Cómo se dice 'Manzana'?", answer: "Apple", options: ["Apple", "Banana", "Orange", "Grape"], icon: "fa-apple-alt" },
+            { question: "¿Cómo se dice 'Perro'?", answer: "Dog", options: ["Cat", "Dog", "Bird", "Fish"], icon: "fa-dog" },
+            { question: "¿Cómo se dice 'Casa'?", answer: "House", options: ["Car", "House", "Tree", "Road"], icon: "fa-home" },
+            { question: "¿Cómo se dice 'Libro'?", answer: "Book", options: ["Pen", "Book", "Paper", "Desk"], icon: "fa-book" },
+            { question: "¿Cómo se dice 'Agua'?", answer: "Water", options: ["Fire", "Water", "Air", "Earth"], icon: "fa-tint" },
+            { question: "¿Cómo se dice 'Sol'?", answer: "Sun", options: ["Moon", "Star", "Sun", "Cloud"], icon: "fa-sun" },
+            { question: "¿Cómo se dice 'Feliz'?", answer: "Happy", options: ["Sad", "Angry", "Happy", "Tired"], icon: "fa-smile" },
+            { question: "¿Cómo se dice 'Rápido'?", answer: "Fast", options: ["Slow", "Fast", "Big", "Small"], icon: "fa-bolt" },
+            { question: "¿Cómo se dice 'Computadora'?", answer: "Computer", options: ["Phone", "Computer", "Tablet", "TV"], icon: "fa-laptop" },
+            { question: "¿Cómo se dice 'Amigo'?", answer: "Friend", options: ["Enemy", "Friend", "Stranger", "Neighbor"], icon: "fa-user-friends" },
+            { question: "¿Cómo se dice 'Viaje'?", answer: "Trip", options: ["Home", "Trip", "Work", "School"], icon: "fa-plane" },
+            { question: "¿Cómo se dice 'Trabajo'?", answer: "Work", options: ["Work", "Game", "Sleep", "Eat"], icon: "fa-briefcase" }
+        ];
+
+        // Estado
+        let currentLevel = 'basico';
+        let currentQuestion = 0;
+        let score = 0;
+        let streak = 0;
+        let totalAnswered = 0;
+        let gameQuestions = [];
+
+        // Navegación
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+
+            document.getElementById(sectionId).classList.add('active');
+            const activeLink = document.querySelector(`[data-section="${sectionId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+
+            if (sectionId === 'lessons') renderLessons();
+            if (sectionId === 'dictionary') renderDictionary();
+            if (sectionId === 'games') initGame();
+
+            window.scrollTo(0, 0);
+        }
+
+        // ============================================================
+        // LECCIONES
+        // ============================================================
+        function renderLessons() {
+            const container = document.getElementById('lessons-container');
+            const lessons = lessonsData[currentLevel];
+
+            container.innerHTML = lessons.map(lesson => `
+                <div class="lesson-card">
+                    <div class="lesson-header ${currentLevel}">
+                        <div class="lesson-number">${lesson.id}</div>
+                        <div class="lesson-icon"><i class="fas ${lesson.icon}"></i></div>
+                        <h3>${lesson.title}</h3>
+                    </div>
+                    <div class="lesson-body">
+                        <p>${lesson.desc}</p>
+                        <div class="lesson-tags">
+                            ${lesson.tags.map(tag => `<span class="tag tag-${tag}">${tag}</span>`).join('')}
+                        </div>
+                        <a href="${lesson.videoUrl}" target="_blank" class="btn btn-primary btn-lesson" ${lesson.videoUrl === '#' ? 'onclick="showModalMessage(\'fa-play-circle\', \'Próximamente\', \'El video para esta lección estará disponible pronto.\'); return false;"' : ''}>
+                            <i class="fas fa-play-circle"></i> Empezar Clase
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterLessons(level) {
+            currentLevel = level;
+            document.querySelectorAll('.level-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.level === level);
+            });
+            renderLessons();
+        }
+
+        // ============================================================
+        // DICCIONARIO
+        // ============================================================
+        function renderDictionary() {
+            const search = document.getElementById('dict-search').value.toLowerCase();
+            const filter = document.getElementById('dict-filter').value;
+            const list = document.getElementById('dictionary-list');
+
+            let filtered = dictionaryData.filter(word => {
+                const matchesSearch = word.es.toLowerCase().includes(search) || 
+                                    word.en.toLowerCase().includes(search) ||
+                                    word.phonetic.toLowerCase().includes(search);
+                const matchesFilter = filter === 'all' || word.level === filter;
+                return matchesSearch && matchesFilter;
+            });
+
+            if (filtered.length === 0) {
+                list.innerHTML = '<div class="no-results"><i class="fas fa-search" style="font-size: 3rem; color: #ddd; margin-bottom: 1rem;"></i><br>No se encontraron palabras</div>';
+                return;
+            }
+
+            list.innerHTML = filtered.map(word => `
+                <div class="word-card">
+                    <div class="word-info">
+                        <h4><i class="fas fa-volume-up" style="color: var(--morado); font-size: 0.9rem;"></i> ${word.en}</h4>
+                        <div class="translation">${word.es}</div>
+                        <div class="word-phonetic"><i class="fas fa-microphone-alt" style="margin-right: 0.3rem;"></i>${word.phonetic}</div>
+                    </div>
+                    <div class="word-meta">
+                        <span class="difficulty-badge badge-${word.level}">${word.level}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ============================================================
+        // JUEGOS
+        // ============================================================
+        function initGame() {
+            gameQuestions = [...gameData].sort(() => Math.random() - 0.5);
+            currentQuestion = 0;
+            score = 0;
+            streak = 0;
+            totalAnswered = 0;
+            updateScore();
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (currentQuestion >= gameQuestions.length) {
+                showModalMessage('fa-trophy', '¡Juego Completado!', `Puntuación final: ${score} puntos`);
+                return;
+            }
+
+            const q = gameQuestions[currentQuestion];
+            document.getElementById('quiz-image').innerHTML = `<i class="fas ${q.icon}"></i>`;
+            document.getElementById('quiz-question').textContent = q.question;
+
+            const optionsContainer = document.getElementById('quiz-options');
+            const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+
+            optionsContainer.innerHTML = shuffledOptions.map(opt => `
+                <button class="option-btn" onclick="checkAnswer('${opt.replace(/'/g, "\\'")}')">${opt}</button>
+            `).join('');
+
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('next-btn').classList.remove('show');
+        }
+
+        function checkAnswer(selected) {
+            const q = gameQuestions[currentQuestion];
+            const buttons = document.querySelectorAll('.option-btn');
+            const feedback = document.getElementById('feedback');
+
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === q.answer) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent === selected && selected !== q.answer) {
+                    btn.classList.add('wrong');
+                }
+            });
+
+            if (selected === q.answer) {
+                score += 10 + (streak * 2);
+                streak++;
+                feedback.innerHTML = `<i class="fas fa-check-circle"></i> ¡Correcto! +${10 + (streak * 2)} pts`;
+                feedback.className = 'feedback correct';
+                createConfetti();
+            } else {
+                streak = 0;
+                feedback.innerHTML = `<i class="fas fa-times-circle"></i> Incorrecto. La respuesta era: ${q.answer}`;
+                feedback.className = 'feedback wrong';
+            }
+
+            totalAnswered++;
+            updateScore();
+            document.getElementById('next-btn').classList.add('show');
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            loadQuestion();
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('streak').textContent = streak;
+            document.getElementById('total-answered').textContent = totalAnswered;
+        }
+
+        function resetGame() {
+            initGame();
+        }
+
+        function createConfetti() {
+            const colors = ['#2563EB', '#FACC15', '#FB7185', '#22C55E', '#A78BFA'];
+            for (let i = 0; i < 20; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
+        // Modal
+        function showModalMessage(icon, title, message) {
+            const modalIcon = document.querySelector('.modal-icon');
+            if (modalIcon) {
+                modalIcon.innerHTML = `<i class="fas ${icon}"></i>`;
+            }
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-message').textContent = message;
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            updateVisitCounter();
+            renderLessons();
+            renderDictionary();
+        });
+    </script>
+</body>
+</html>
